@@ -25,3 +25,12 @@ Este es un sistema basado en microservicios para la administración de salas par
 * Analista
     * Consulta de reporte de reuniones.
 
+## Base de datos
+
+### Esquema
+
+![alt text](./db/database.svg "Esquema")
+
+## Microservicios
+
+![alt text](./ms/microservices.svg "Microservicios")

@@ -6,7 +6,7 @@ DOT=microservices.dot
 all: $(DIAGRAM)
 
 $(DIAGRAM):
-	$(CC) -Tsvg $(DOT) > microservices.svg
+	$(CC) -Tsvg $(DOT) -o microservices.svg
 
 clean:
 	rm $(DIAGRAM)
