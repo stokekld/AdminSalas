@@ -1,0 +1,10 @@
+graph {
+
+    node [shape=ellipse]
+    auth -- usuario;
+    usuario -- dependencia;
+    reunion -- usuario;
+    reunion -- dependencia;
+    reunion -- sala;
+
+}
