@@ -10,20 +10,17 @@ Este es un sistema basado en microservicios para la administración de salas par
     * Asignación de perfiles.
     * Alta/Baja\* de salas.
     * Activación/Desactivación de salas.
-    * Alta/Baja\* de servicios.
-    * Activación/Desactivación de servicios.
+    * Alta/Baja\* de dependencias.
+    * Activación/Desactivación de dependencias.
 
 * Supervisor
-    * Aprobar las solicitudes de reuniones.
-    * Rechazar solicitudes de reuniones.
-    * Cancelar solicitudes aprobadas.
+    * Alta/Baja/Cambio de reuniones(también externas).
 
-* Cliente
-    * Solicitud de reuniones.
-    * Eliminación de solicitud antes de ser validada.
+* Solicitante
+    * Alta/Baja/Cambio de reuniones(48hrs hábiles antes de la reunión).
 
 * Observador
-    * Consulta de reuniones aprobadas.
+    * Consulta de reuniones.
 
 * Analista
     * Consulta de reporte de reuniones.
