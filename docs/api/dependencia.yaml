@@ -1,0 +1,123 @@
+swagger: '2.0'
+info:
+  description: Esta es la primera versión de la api del microservicio de Dependencia
+  version: 1.0.0
+  title: Dependencia
+  contact:
+    email: jesusflores@unam.mx
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+host: localhost
+basePath: /v1
+schemes:
+  - http
+paths:
+  /dependencia:
+    get:
+      tags:
+        - Dependencia
+      summary: Regresa la lista completa de dependencias
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Dependencia'
+    post:
+      tags:
+        - Dependencia
+      summary: Agrega una dependencia
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: ''
+          required: true
+          schema:
+            type: object
+            properties:
+              nombre:
+                type: integer
+                format: int64
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/Dependencia'
+        '405':
+          description: Datos invalidos
+  '/dependencia/{id}':
+    get:
+      tags:
+        - Dependencia
+      summary: Regresa una dependencia
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: Id de la dependencia
+          required: true
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/Dependencia'
+        '404':
+          description: Dependencia no encontrada
+    post:
+      tags:
+        - Dependencia
+      summary: Actualiza una dependencia
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: Id de la dependencia
+          required: true
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/Dependencia'
+        '405':
+          description: Datos inválidos
+    delete:
+      tags:
+        - Dependencia
+      summary: Elimina una dependencia
+      parameters:
+        - name: id
+          in: path
+          description: Id de la dependencia
+          required: true
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: OK
+        '404':
+          description: Dependencia no encontrada
+definitions:
+  Dependencia:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int64
+      nombre:
+        type: string
