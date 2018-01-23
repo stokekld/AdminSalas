@@ -29,8 +29,8 @@ Este es un sistema basado en microservicios para la administración de salas par
 
 ### Esquema
 
-![alt text](./db/database.svg "Esquema")
+![alt text](./images/database.svg "Base de datos")
 
 ## Microservicios
 
-![alt text](./ms/microservices.svg "Microservicios")
+![alt text](./images/microservices.svg "Microservicios")
