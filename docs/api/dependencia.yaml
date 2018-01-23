@@ -44,8 +44,7 @@ paths:
             type: object
             properties:
               nombre:
-                type: integer
-                format: int64
+                type: string
       responses:
         '200':
           description: OK
