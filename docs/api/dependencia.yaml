@@ -4,6 +4,7 @@ info:
   version: 1.0.0
   title: Dependencia
   contact:
+    name: Jesus Flores
     email: jesusflores@unam.mx
   license:
     name: Apache 2.0
@@ -17,7 +18,9 @@ paths:
     get:
       tags:
         - Dependencia
-      summary: Regresa la lista completa de dependencias
+      summary: Lista de dependencias
+      description: Genera la lista completa de dependencias
+      operationId: getAll
       produces:
         - application/json
       responses:
@@ -27,10 +30,18 @@ paths:
             type: array
             items:
               $ref: '#/definitions/Dependencia'
+        '401':
+          description: No autorizado
+        '403':
+          description: Recurso prohibido
+      security:
+        - jwt: []
     post:
       tags:
         - Dependencia
       summary: Agrega una dependencia
+      description: Agrega una dependencia si el perfil de usuario es Administrador
+      operationId: addOne
       consumes:
         - application/json
       produces:
@@ -46,17 +57,22 @@ paths:
               nombre:
                 type: string
       responses:
-        '200':
-          description: OK
+        '201':
+          description: Dependencia creada
           schema:
             $ref: '#/definitions/Dependencia'
-        '405':
-          description: Datos invalidos
+        '401':
+          description: No autorizado
+        '403':
+          description: Recurso prohibido
+      security:
+        - jwt: []
   '/dependencia/{id}':
     get:
       tags:
         - Dependencia
       summary: Regresa una dependencia
+      operationId: getById
       produces:
         - application/json
       parameters:
@@ -71,12 +87,18 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/Dependencia'
+        '401':
+          description: No autorizado
         '404':
           description: Dependencia no encontrada
-    post:
+      security:
+        - jwt: []
+    put:
       tags:
         - Dependencia
       summary: Actualiza una dependencia
+      description: Actualiza una dependencia si el usuario es Administrador
+      operationId: updateById
       consumes:
         - application/json
       produces:
@@ -90,15 +112,25 @@ paths:
           format: int64
       responses:
         '200':
-          description: OK
+          description: Dependencia actualizada
           schema:
             $ref: '#/definitions/Dependencia'
-        '405':
-          description: Datos inválidos
+        '401':
+          description: No autorizado
+        '403':
+          description: Recurso prohibido
+        '404':
+          description: Dependencia no encontrada
+      security:
+        - jwt: []
     delete:
       tags:
         - Dependencia
       summary: Elimina una dependencia
+      description: >-
+        Elimina una depenpendencia si el usuario es Administrador y no se ha
+        usado para una reunión
+      operationId: deleteById
       parameters:
         - name: id
           in: path
@@ -108,9 +140,20 @@ paths:
           format: int64
       responses:
         '200':
-          description: OK
+          description: Dependencia borrada
+        '401':
+          description: No autorizado
+        '403':
+          description: Recurso prohibido
         '404':
           description: Dependencia no encontrada
+      security:
+        - jwt: []
+securityDefinitions:
+  jwt:
+    type: apiKey
+    name: token
+    in: header
 definitions:
   Dependencia:
     type: object
