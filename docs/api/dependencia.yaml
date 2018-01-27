@@ -31,9 +31,9 @@ paths:
             items:
               $ref: '#/definitions/Dependencia'
         '401':
-          description: No autorizado
+          description: No autenticado
         '403':
-          description: Recurso prohibido
+          description: No autorizado
       security:
         - jwt: []
     post:
@@ -62,9 +62,9 @@ paths:
           schema:
             $ref: '#/definitions/Dependencia'
         '401':
-          description: No autorizado
+          description: No autenticado
         '403':
-          description: Recurso prohibido
+          description: No autorizado
       security:
         - jwt: []
   '/dependencia/{id}':
@@ -88,7 +88,7 @@ paths:
           schema:
             $ref: '#/definitions/Dependencia'
         '401':
-          description: No autorizado
+          description: No autenticado
         '404':
           description: Dependencia no encontrada
       security:
@@ -116,9 +116,9 @@ paths:
           schema:
             $ref: '#/definitions/Dependencia'
         '401':
-          description: No autorizado
+          description: No autenticado
         '403':
-          description: Recurso prohibido
+          description: No autorizado
         '404':
           description: Dependencia no encontrada
       security:
@@ -142,9 +142,9 @@ paths:
         '200':
           description: Dependencia borrada
         '401':
-          description: No autorizado
+          description: No autenticado
         '403':
-          description: Recurso prohibido
+          description: No autorizado
         '404':
           description: Dependencia no encontrada
       security:
