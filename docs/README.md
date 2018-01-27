@@ -34,3 +34,34 @@ Este es un sistema basado en microservicios para la administración de salas par
 ## Microservicios
 
 ![alt text](./images/microservices.svg "Microservicios")
+
+## Seguridad
+
+### Token
+
+Se usará `jwt` como motor para generar tokens.
+
+* Payload:
+
+```
+{
+    "iat": 1371720939,
+    "exp": 1371720939,
+    "id": "507f1f77bcf86cd799439011",
+    "datos": {
+	"nombre": "Ricardo",
+	"apaterno": "Martínez",
+	"amaterno": "Sanchez",
+	"email": "ricardo@example.com"
+    },
+    "perfiles": ["Administrador", "Supervisor", "Solicitante", "Observador", "Analista"],
+    "user": "rmartinez",
+    "activo": true
+}
+```
+
+La variable de entorno JWT_KEY contiene la llave para decodificar.
+
+```
+$ docker run -p 80:8080 -e JWT_KEY=secret dependencia_server
+```
