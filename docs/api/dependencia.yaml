@@ -9,12 +9,9 @@ info:
   license:
     name: Apache 2.0
     url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
-host: localhost
-basePath: /v1
-schemes:
-  - http
+basePath: /v1/dependencia/
 paths:
-  /dependencia:
+  /:
     get:
       tags:
         - Dependencia
@@ -67,7 +64,7 @@ paths:
           description: No autorizado
       security:
         - jwt: []
-  '/dependencia/{id}':
+  '/{id}':
     get:
       tags:
         - Dependencia
