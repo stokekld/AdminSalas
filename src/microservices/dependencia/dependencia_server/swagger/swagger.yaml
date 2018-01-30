@@ -1,0 +1,170 @@
+---
+swagger: "2.0"
+info:
+  description: "Esta es la primera versión de la api del microservicio de Dependencia"
+  version: "1.0.0"
+  title: "Dependencia"
+  contact:
+    name: "Jesus Flores"
+    email: "jesusflores@unam.mx"
+  license:
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+basePath: "/v1/dependencia/"
+paths:
+  /:
+    get:
+      tags:
+      - "Dependencia"
+      summary: "Lista de dependencias"
+      description: "Genera la lista completa de dependencias"
+      operationId: "get_all"
+      produces:
+      - "application/json"
+      parameters: []
+      responses:
+        200:
+          description: "OK"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Dependencia"
+        401:
+          description: "No autenticado"
+        403:
+          description: "No autorizado"
+      security:
+      - jwt: []
+      x-swagger-router-controller: "dependencia_server.controllers.dependencia_controller"
+    post:
+      tags:
+      - "Dependencia"
+      summary: "Agrega una dependencia"
+      description: "Agrega una dependencia si el perfil de usuario es Administrador"
+      operationId: "add_one"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: ""
+        required: true
+        schema:
+          $ref: "#/definitions/body"
+      responses:
+        201:
+          description: "Dependencia creada"
+          schema:
+            $ref: "#/definitions/Dependencia"
+        401:
+          description: "No autenticado"
+        403:
+          description: "No autorizado"
+      security:
+      - jwt: []
+      x-swagger-router-controller: "dependencia_server.controllers.dependencia_controller"
+  /{id}:
+    get:
+      tags:
+      - "Dependencia"
+      summary: "Regresa una dependencia"
+      operationId: "get_by_id"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "Id de la dependencia"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/Dependencia"
+        401:
+          description: "No autenticado"
+        404:
+          description: "Dependencia no encontrada"
+      security:
+      - jwt: []
+      x-swagger-router-controller: "dependencia_server.controllers.dependencia_controller"
+    put:
+      tags:
+      - "Dependencia"
+      summary: "Actualiza una dependencia"
+      description: "Actualiza una dependencia si el usuario es Administrador"
+      operationId: "update_by_id"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "Id de la dependencia"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        200:
+          description: "Dependencia actualizada"
+          schema:
+            $ref: "#/definitions/Dependencia"
+        401:
+          description: "No autenticado"
+        403:
+          description: "No autorizado"
+        404:
+          description: "Dependencia no encontrada"
+      security:
+      - jwt: []
+      x-swagger-router-controller: "dependencia_server.controllers.dependencia_controller"
+    delete:
+      tags:
+      - "Dependencia"
+      summary: "Elimina una dependencia"
+      description: "Elimina una depenpendencia si el usuario es Administrador y no\
+        \ se ha usado para una reunión"
+      operationId: "delete_by_id"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "Id de la dependencia"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        200:
+          description: "Dependencia borrada"
+        401:
+          description: "No autenticado"
+        403:
+          description: "No autorizado"
+        404:
+          description: "Dependencia no encontrada"
+      security:
+      - jwt: []
+      x-swagger-router-controller: "dependencia_server.controllers.dependencia_controller"
+securityDefinitions:
+  jwt:
+    type: "apiKey"
+    name: "token"
+    in: "header"
+definitions:
+  Dependencia:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+      nombre:
+        type: "string"
+  body:
+    type: "object"
+    properties:
+      nombre:
+        type: "string"
