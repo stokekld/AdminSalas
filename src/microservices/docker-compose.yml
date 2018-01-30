@@ -4,3 +4,5 @@ services:
         build: ./apigw
         ports:
             - "80:80"
+    dependencia:
+        build: ./dependencia
