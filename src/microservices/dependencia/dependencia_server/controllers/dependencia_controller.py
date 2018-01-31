@@ -1,12 +1,14 @@
 import connexion
 from dependencia_server.models.body import Body
 from dependencia_server.models.dependencia import Dependencia
+from dependencia_server.middlewares.auth_middleware import *
 from datetime import date, datetime
 from typing import List, Dict
 from six import iteritems
 from ..util import deserialize_date, deserialize_datetime
 
-
+@authentication
+@authorization(['Administrador'])
 def add_one(body):
     """
     Agrega una dependencia
@@ -21,6 +23,8 @@ def add_one(body):
     return 'do some magic!'
 
 
+@authentication
+@authorization(['Administrador'])
 def delete_by_id(id):
     """
     Elimina una dependencia
@@ -32,7 +36,8 @@ def delete_by_id(id):
     """
     return 'do some magic!'
 
-
+@authentication
+@authorization(['Administrador'])
 def get_all():
     """
     Lista de dependencias
@@ -43,6 +48,7 @@ def get_all():
     return 'do some magic!'
 
 
+@authentication
 def get_by_id(id):
     """
     Regresa una dependencia
@@ -55,6 +61,8 @@ def get_by_id(id):
     return 'do some magic!'
 
 
+@authentication
+@authorization(['Administrador'])
 def update_by_id(id):
     """
     Actualiza una dependencia
