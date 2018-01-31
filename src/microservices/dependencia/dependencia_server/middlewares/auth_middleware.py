@@ -2,7 +2,9 @@
 Middlewares para el framework connexion
 """
 
-import connexion, os, jwt
+import connexion, os, jwt, logging
+
+DEBUG = True if os.environ.get('DEBUG', 'False') == "True" else False
 
 def get_dataToken():
     """
@@ -44,6 +46,8 @@ def authentication(function):
         try:
             get_dataToken()
         except Exception as e:
+            if DEBUG:
+                logging.info(str(e))
             return "No autenticado", 401
         return function(*args, **kwargs)
     return inner
@@ -63,12 +67,16 @@ def authorization(profiles):
             try:
                 data = get_dataToken()
             except Exception as e:
+                if DEBUG:
+                    logging.info(str(e))
                 return "No autenticado", 401
 
             # verifica si el usuario esta activo
             try:
                 actived = isActived(data)
             except Exception as e:
+                if DEBUG:
+                    logging.info(str(e))
                 return "No autenticado", 401
 
             if not actived:
