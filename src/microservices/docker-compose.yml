@@ -4,7 +4,12 @@ services:
         build: ./apigw
         ports:
             - "80:80"
+    mongo:
+        build: ./mongo
     dependencia:
         build: ./dependencia
         environment:
             - JWT_KEY=secret
+            - DEBUG=True
+    swagger:
+        image: swaggerapi/swagger-editor
