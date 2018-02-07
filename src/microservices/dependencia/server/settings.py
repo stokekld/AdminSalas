@@ -22,13 +22,12 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ['JWT_KEY']
+SECRET_KEY = os.environ['JWT_KEY'] if 'JWT_KEY' in os.environ else "secret"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = True if 'DEBUG' in os.environ and os.environ['DEBUG'] == "True" else False
 
 ALLOWED_HOSTS = ["*"]
-
 
 # Application definition
 
@@ -51,7 +50,7 @@ MIDDLEWARE = [
     # 'django.contrib.auth.middleware.AuthenticationMiddleware',
     # 'django.contrib.messages.middleware.MessageMiddleware',
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'middlewares.auth.Auth'
+    # 'middlewares.auth.Auth'
 ]
 
 ROOT_URLCONF = 'server.urls'

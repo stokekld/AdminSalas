@@ -1,5 +1,7 @@
 from django.http import HttpResponse
+from django.conf import settings
 import os, jwt, logging
+
 
 class Auth(object):
 
@@ -10,7 +12,7 @@ class Auth(object):
         """
         Obteniendo token de headers
         """
-        return jwt.decode(token, os.environ['JWT_KEY'], algorithms='HS256')
+        return jwt.decode(token, settings.SECRET_KEY, algorithms='HS256')
 
     def __call__(self, request):
 

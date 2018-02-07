@@ -7,5 +7,4 @@ import logging
 
 class ApiView(APIView):
     def get(self, request, format=None):
-        logging.info(request.profiles)
         return Response({})
