@@ -11,5 +11,7 @@ services:
         environment:
             - JWT_KEY=secret
             - DEBUG=True
+            - DB_HOST=mongo
+            - DB_NAME=salas
     swagger:
         image: swaggerapi/swagger-editor
