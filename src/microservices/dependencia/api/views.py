@@ -7,6 +7,7 @@ from rest_framework.response import Response
 from permissions.profiles import ProfilePermission
 
 from .serializers import DepSerializer
+from .models import Dependencia
 
 import logging
 
@@ -15,7 +16,9 @@ class ApiView(APIView):
     permission_classes = (ProfilePermission,)
 
     def get(self, request, format=None):
-        return Response({})
+        dependencias = Dependencia.objects.all()
+        serializer = DepSerializer(dependencias, many=True)
+        return Response(serializer.data)
 
     def post(self, request, format=None):
 
@@ -24,10 +27,10 @@ class ApiView(APIView):
         serializer = DepSerializer(data=request.data, many=many)
 
         if not serializer.is_valid():
-            return HttpResponse(status=400)
+            return Response(serializer.errors, 400)
 
         dependencia = serializer.save()
 
         logging.info(dependencia)
 
-        return Response({})
+        return Response(dependencia)
