@@ -11,7 +11,7 @@ from .models import Dependencia
 
 import logging
 
-class ApiView(APIView):
+class MainView(APIView):
 
     permission_classes = (ProfilePermission,)
 
@@ -31,6 +31,12 @@ class ApiView(APIView):
 
         dependencia = serializer.save()
 
-        logging.info(dependencia)
-
         return Response(dependencia)
+
+class IdView(APIView):
+
+    # permission_classes = (ProfilePermission,)
+
+    def get(self, request, id, format=None):
+        data  = {id:id}
+        return Response(data)
