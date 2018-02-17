@@ -38,6 +38,24 @@ class IdView(APIView):
     permission_classes = (ProfilePermission,)
 
     def get(self, request, id, format=None):
-        dependencia = Dependencia.objects(id=id)
-        serializer = DepSerializer(dependencia, many=True)
+        if Dependencia.objects(id=id).count() is not 1:
+            return HttpResponse(status=404)
+
+        dependencia = Dependencia.objects(id=id)[0]
+        serializer = DepSerializer(dependencia)
         return Response(serializer.data)
+
+    def put(self, request, id, format=None):
+        if Dependencia.objects(id=id).count() is not 1:
+            return HttpResponse(status=404)
+
+        dependencia = Dependencia.objects(id=id)[0]
+
+        serializer = DepSerializer(dependencia, data=request.data)
+
+        if not serializer.is_valid():
+            return Response(serializer.errors, 400)
+
+        dependencia = serializer.save()
+
+        return Response(dependencia)

@@ -17,4 +17,11 @@ class DepSerializer(serializers.Serializer):
 
         return serializers.data
 
+    def update(self, instance, validated_data):
 
+        instance.nombre = validated_data['nombre']
+        instance.save()
+
+        serializers = DepSerializer(instance)
+
+        return serializers.data
