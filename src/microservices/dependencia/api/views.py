@@ -38,6 +38,7 @@ class IdView(APIView):
     permission_classes = (ProfilePermission,)
 
     def get(self, request, id, format=None):
+
         if Dependencia.objects(id=id).count() is not 1:
             return HttpResponse(status=404)
 
@@ -60,3 +61,13 @@ class IdView(APIView):
         serializer.save()
 
         return Response(serializer.data)
+
+    def delete(self, request, id, format=None):
+
+        if Dependencia.objects(id=id).count() is not 1:
+            return HttpResponse(status=404)
+
+        dependencia = Dependencia.objects(id=id)[0]
+        dependencia.delete()
+
+        return HttpResponse(status=200)
