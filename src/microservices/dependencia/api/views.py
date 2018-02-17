@@ -35,8 +35,9 @@ class MainView(APIView):
 
 class IdView(APIView):
 
-    # permission_classes = (ProfilePermission,)
+    permission_classes = (ProfilePermission,)
 
     def get(self, request, id, format=None):
-        data  = {id:id}
-        return Response(data)
+        dependencia = Dependencia.objects(id=id)
+        serializer = DepSerializer(dependencia, many=True)
+        return Response(serializer.data)
