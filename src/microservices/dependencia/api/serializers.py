@@ -9,19 +9,14 @@ class DepSerializer(serializers.Serializer):
 
     def create(self, validated_data):
 
-        dependencia = Dependencia()
-        dependencia.nombre = validated_data['nombre']
+        dependencia = Dependencia(**validated_data)
         dependencia.save()
 
-        serializers = DepSerializer(dependencia)
-
-        return serializers.data
+        return dependencia
 
     def update(self, instance, validated_data):
 
         instance.nombre = validated_data['nombre']
         instance.save()
 
-        serializers = DepSerializer(instance)
-
-        return serializers.data
+        return instance

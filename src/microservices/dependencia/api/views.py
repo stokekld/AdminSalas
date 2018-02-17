@@ -29,9 +29,9 @@ class MainView(APIView):
         if not serializer.is_valid():
             return Response(serializer.errors, 400)
 
-        dependencia = serializer.save()
+        serializer.save()
 
-        return Response(dependencia)
+        return Response(serializer.data)
 
 class IdView(APIView):
 
@@ -46,6 +46,7 @@ class IdView(APIView):
         return Response(serializer.data)
 
     def put(self, request, id, format=None):
+
         if Dependencia.objects(id=id).count() is not 1:
             return HttpResponse(status=404)
 
@@ -56,6 +57,6 @@ class IdView(APIView):
         if not serializer.is_valid():
             return Response(serializer.errors, 400)
 
-        dependencia = serializer.save()
+        serializer.save()
 
-        return Response(dependencia)
+        return Response(serializer.data)
