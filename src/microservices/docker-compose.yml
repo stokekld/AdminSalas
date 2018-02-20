@@ -1,17 +1,17 @@
 version: '3'
 services:
-    apigw:
-        build: ./apigw
-        ports:
-            - "80:80"
+    swagger:
+        image: swaggerapi/swagger-editor
     mongo:
         build: ./mongo
     dependencia:
         build: ./dependencia
-        environment:
-            - JWT_KEY=secret
-            - DEBUG=True
-            - DB_HOST=mongo
-            - DB_NAME=salas
-    swagger:
-        image: swaggerapi/swagger-editor
+        depends_on:
+            - mongo
+        env_file: .config.env
+    apigw:
+        build: ./apigw
+        ports:
+            - "80:80"
+        depends_on:
+            - dependencia
