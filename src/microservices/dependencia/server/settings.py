@@ -44,10 +44,11 @@ MIDDLEWARE = [
 ]
 
 REST_FRAMEWORK = {
-    'UNAUTHENTICATED_USER': None,
+    'DEFAULT_AUTHENTICATION_CLASSES': [],
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.AllowAny',
     ),
+    'UNAUTHENTICATED_USER': None,
 }
 
 ROOT_URLCONF = 'server.urls'
