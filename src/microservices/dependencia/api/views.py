@@ -31,7 +31,7 @@ class MainView(APIView):
 
         serializer.save()
 
-        return Response(serializer.data)
+        return Response(serializer.data, 201)
 
 class IdView(APIView):
 
