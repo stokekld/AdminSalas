@@ -26,7 +26,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ['JWT_KEY'] if 'JWT_KEY' in os.environ else ""
-ALGORITHM = os.environ['ALGORITHM'] if 'JWT_KEY' in os.environ else ""
+ALGORITHM = os.environ['ALGORITHM'] if 'ALGORITHM' in os.environ else ""
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True if 'DEBUG' in os.environ and os.environ['DEBUG'] == "True" else False
