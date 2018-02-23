@@ -22,8 +22,6 @@ class TestMicroservice(SimpleTestCase):
 
         response = self.client.get('/v1/dependencia/' + self.id)
         self.assertEqual(response.status_code, 401)
-        response = self.client.post('/v1/dependencia/' + self.id)
-        self.assertEqual(response.status_code, 401)
         response = self.client.put('/v1/dependencia/' + self.id)
         self.assertEqual(response.status_code, 401)
         response = self.client.delete('/v1/dependencia/' + self.id)
@@ -36,8 +34,6 @@ class TestMicroservice(SimpleTestCase):
         self.assertEqual(response.status_code, 401)
 
         response = self.client.get('/v1/dependencia/' + self.id, HTTP_TOKEN=self.token)
-        self.assertEqual(response.status_code, 401)
-        response = self.client.post('/v1/dependencia/' + self.id, HTTP_TOKEN=self.token)
         self.assertEqual(response.status_code, 401)
         response = self.client.put('/v1/dependencia/' + self.id, HTTP_TOKEN=self.token)
         self.assertEqual(response.status_code, 401)
