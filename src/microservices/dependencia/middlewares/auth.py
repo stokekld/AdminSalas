@@ -29,7 +29,7 @@ class Auth(object):
 
         # Verificando si es activo
         if not 'activo' in data or not data['activo']:
-            return HttpResponse(status=403)
+            return HttpResponse(status=401)
 
         # Obteniendo perfiles
         if not 'perfiles' in data:
