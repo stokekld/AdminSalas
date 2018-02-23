@@ -12,7 +12,7 @@ class TestMicroservice(SimpleTestCase):
         self.token = jwt.encode({
             "perfiles": ["Supervisor", "Solicitante", "Observador", "Analista"],
             "activo": True
-        }, settings.SECRET_KEY, algorithm='HS256')
+        }, settings.SECRET_KEY, algorithm=settings.ALGORITHM)
 
     def test_nopermission(self):
         response = self.client.get('/v1/dependencia/', HTTP_TOKEN=self.token)

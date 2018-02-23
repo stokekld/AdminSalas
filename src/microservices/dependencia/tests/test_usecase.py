@@ -12,7 +12,7 @@ class TestMicroservice(SimpleTestCase):
         self.admin = jwt.encode({
             "perfiles": ["Administrador"],
             "activo": True
-        }, settings.SECRET_KEY, algorithm='HS256')
+        }, settings.SECRET_KEY, algorithm=settings.ALGORITHM)
 
     def test_create_dep(self):
         response = self.client.post('/v1/dependencia/', {'nombre':'UCA'}, HTTP_TOKEN=self.admin)

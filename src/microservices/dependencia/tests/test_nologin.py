@@ -11,7 +11,7 @@ class TestMicroservice(SimpleTestCase):
         self.token = jwt.encode({
                 "perfiles": ["Administrador", "Supervisor", "Solicitante", "Observador", "Analista"],
                 "activo": False
-            }, settings.SECRET_KEY, algorithm='HS256')
+            }, settings.SECRET_KEY, algorithm=settings.ALGORITHM)
         self.client = Client()
 
     def test_nologin(self):

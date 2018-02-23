@@ -12,7 +12,7 @@ class Auth(object):
         """
         Obteniendo token de headers
         """
-        return jwt.decode(token, settings.SECRET_KEY, algorithms='HS256')
+        return jwt.decode(token, settings.SECRET_KEY, algorithms=settings.ALGORITHM)
 
     def __call__(self, request):
 
