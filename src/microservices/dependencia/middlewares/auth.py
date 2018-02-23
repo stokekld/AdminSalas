@@ -33,7 +33,7 @@ class Auth(object):
 
         # Obteniendo perfiles
         if not 'perfiles' in data:
-            return HttpResponse(status=403)
+            return HttpResponse(status=401)
 
         request.profiles = data['perfiles']
 
