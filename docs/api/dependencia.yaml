@@ -1,15 +1,16 @@
-swagger: '2.0'
+openapi: 3.0.0
 info:
   description: Esta es la primera versión de la api del microservicio de Dependencia
   version: 1.0.0
   title: Dependencia
   contact:
     name: Jesus Flores
-    email: jesusflores@unam.mx
+    email: joywarmgun@gmail.com
   license:
     name: Apache 2.0
     url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
-basePath: /v1/dependencia/
+servers:
+  - url: 'http://localhost/v1/dependencia/'
 paths:
   /:
     get:
@@ -17,112 +18,65 @@ paths:
         - Dependencia
       summary: Lista de dependencias
       description: Genera la lista completa de dependencias
-      produces:
-        - application/json
       responses:
         '200':
-          description: OK
-          schema:
-            type: array
-            items:
-              $ref: '#/definitions/Dependencia'
+          $ref: '#/components/responses/dependencias'
+        '400':
+          description: Datos inválidos
         '401':
           description: No autenticado
         '403':
           description: No autorizado
-      security:
-        - jwt: []
     post:
       tags:
         - Dependencia
       summary: Agrega una dependencia
       description: Agrega una dependencia si el perfil de usuario es Administrador
-      consumes:
-        - application/json
-      produces:
-        - application/json
-      parameters:
-        - in: body
-          name: body
-          description: ''
-          required: true
-          schema:
-            type: object
-            properties:
-              nombre:
-                type: string
+      requestBody:
+        $ref: '#/components/requestBodies/propiedades'
       responses:
         '201':
-          description: Dependencia creada
-          schema:
-            $ref: '#/definitions/Dependencia'
+          $ref: '#/components/schemas/Dependencia'
+        '400':
+          description: Datos inválidos
         '401':
           description: No autenticado
         '403':
           description: No autorizado
-      security:
-        - jwt: []
   '/{id}':
     get:
       tags:
         - Dependencia
       summary: Regresa una dependencia
-      produces:
-        - application/json
-      parameters:
-        - name: id
-          in: path
-          description: Id de la dependencia
-          required: true
-          type: string
+      parameters: 
+        - $ref: '#/components/parameters/id'
       responses:
         '200':
-          description: OK
-          schema:
-            $ref: '#/definitions/Dependencia'
+          $ref: '#/components/schemas/Dependencia'
+        '400':
+          description: Datos inválidos
         '401':
           description: No autenticado
-        '404':
-          description: Dependencia no encontrada
-      security:
-        - jwt: []
+        '403':
+          description: No autorizado
     put:
       tags:
         - Dependencia
       summary: Actualiza una dependencia
       description: Actualiza una dependencia si el usuario es Administrador
-      consumes:
-        - application/json
-      produces:
-        - application/json
       parameters:
-        - name: id
-          in: path
-          description: Id de la dependencia
-          required: true
-          type: string
-        - name: body
-          in: body
-          description: ''
-          required: true
-          schema:
-            type: object
-            properties:
-              nombre: 
-                type: string
+        - $ref: '#/components/parameters/id'
+      requestBody:
+        $ref: '#/components/requestBodies/propiedades'
       responses:
         '200':
-          description: Dependencia actualizada
-          schema:
-            $ref: '#/definitions/Dependencia'
+          $ref: '#/components/schemas/Dependencia'
+        '400':
+          description: Datos inválidos
         '401':
           description: No autenticado
         '403':
           description: No autorizado
-        '404':
-          description: Dependencia no encontrada
-      security:
-        - jwt: []
     delete:
       tags:
         - Dependencia
@@ -131,33 +85,56 @@ paths:
         Elimina una depenpendencia si el usuario es Administrador y no se ha
         usado para una reunión
       parameters:
-        - name: id
-          in: path
-          description: Id de la dependencia
-          required: true
-          type: string
+        - $ref: '#/components/parameters/id'
       responses:
         '200':
           description: Dependencia borrada
+        '400':
+          description: Datos inválidos
         '401':
           description: No autenticado
         '403':
           description: No autorizado
-        '404':
-          description: Dependencia no encontrada
-      security:
-        - jwt: []
-securityDefinitions:
-  jwt:
-    type: apiKey
-    name: token
-    in: header
-definitions:
-  Dependencia:
-    type: object
-    properties:
-      id:
-        type: integer
-        format: int64
-      nombre:
+description: Dependencia no encontrada
+security:
+  - jwt: []
+components:
+  schemas:
+    Dependencia:
+      type: object
+      properties:
+        id:
+          type: string
+        nombre:
+          type: string
+  parameters:
+    id:
+      name: id
+      in: path
+      description: Id de la dependencia
+      required: true
+      schema:
         type: string
+  requestBodies:
+    propiedades:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              nombre:
+                type: string
+  responses:
+    dependencias:
+      description: A complex object array response
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/Dependencia'
+  securitySchemes:
+    jwt:
+      type: apiKey
+      name: token
+      in: header
