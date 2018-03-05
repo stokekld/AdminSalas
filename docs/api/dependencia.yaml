@@ -48,7 +48,7 @@ paths:
       tags:
         - Dependencia
       summary: Regresa una dependencia
-      parameters: 
+      parameters:
         - $ref: '#/components/parameters/id'
       responses:
         '200':
@@ -59,6 +59,8 @@ paths:
           description: No autenticado
         '403':
           description: No autorizado
+        '404':
+          description: Dependencia no encontrada
     put:
       tags:
         - Dependencia
@@ -77,6 +79,8 @@ paths:
           description: No autenticado
         '403':
           description: No autorizado
+        '404':
+          description: Dependencia no encontrada
     delete:
       tags:
         - Dependencia
@@ -95,7 +99,8 @@ paths:
           description: No autenticado
         '403':
           description: No autorizado
-description: Dependencia no encontrada
+        '404':
+          description: Dependencia no encontrada
 security:
   - jwt: []
 components:
@@ -126,7 +131,7 @@ components:
                 type: string
   responses:
     dependencias:
-      description: A complex object array response
+      description: OK
       content:
         application/json:
           schema:
