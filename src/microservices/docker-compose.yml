@@ -9,6 +9,11 @@ services:
         depends_on:
             - mongo
         env_file: .config.env
+    usuario:
+        build: ./usuario
+        depends_on:
+            - mongo
+        env_file: .config.env
     apigw:
         build: ./apigw
         ports:
