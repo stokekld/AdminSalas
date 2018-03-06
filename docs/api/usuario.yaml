@@ -1,0 +1,230 @@
+openapi: 3.0.0
+info:
+  description: Esta es la primera versión de la api del microservicio de Usuario
+  version: 1.0.0
+  title: Usuario
+  contact:
+    name: Jesus Flores
+    email: joywarmgun@gmail.com
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+servers:
+  - url: 'http://localhost/v1/usuario/'
+paths:
+  /:
+    get:
+      tags:
+        - Usuario
+      summary: Lista de usuarios
+      description: Genera la lista de usuarios
+      responses:
+        '200':
+          $ref: '#/components/responses/usuarios'
+        '400':
+          description: Datos inválidos
+        '401':
+          description: No autenticado
+        '403':
+          description: No autorizado
+      security:
+        - jwt: []
+    post:
+      tags:
+        - Usuario
+      summary: Agrega un usuario
+      description: Agrega un usuario parasi el perfil de usuario es Administrador
+      requestBody:
+        $ref: '#/components/requestBodies/usuario'
+      responses:
+        '201':
+          $ref: '#/components/responses/usuario'
+        '400':
+          description: Datos inválidos
+        '401':
+          description: No autenticado
+        '403':
+          description: No autorizado
+      security:
+        - jwt: []
+  /{id}:
+    get:
+      tags:
+        - Usuario
+      summary: Obtiene un usuario
+      parameters:
+        - $ref: '#/components/parameters/id'
+      responses:
+        '200':
+          $ref: '#/components/responses/usuario'
+        '400':
+          description: Datos inválidos
+        '401':
+          description: No autenticado
+        '403':
+          description: No autorizado
+        '404':
+          description: Usuario no encontrado
+      security:
+        - jwt: []
+    put:
+      tags:
+       - Usuario
+      summary: Actualiza un usuario
+      description: Actualiza un usuario
+      parameters:
+        - $ref: '#/components/parameters/id'
+      requestBody:
+        $ref: '#/components/requestBodies/usuario'
+      responses:
+        '200':
+          $ref: '#/components/responses/usuario'
+        '400':
+          description: Datos inválidos
+        '401':
+          description: No autenticado
+        '403':
+          description: No autorizado
+        '404':
+          description: Usuario no encontrado
+      security:
+        - jwt: []
+    delete:
+      tags:
+       - Usuario
+      summary: Elimina un usuario
+      description: Elimina un usuario
+      parameters:
+        - $ref: '#/components/parameters/id'
+      responses:
+        '200':
+          description: Usuario eliminado
+        '400':
+          description: Datos inválidos
+        '401':
+          description: No autenticado
+        '403':
+          description: No autorizado
+        '404':
+          description: Usuario no encontrado
+      security:
+        - jwt: []
+  /auth:
+    get:
+      tags:
+        - Auth
+      summary: Obtiene un token de autenticación
+      requestBody:
+        $ref: '#/components/requestBodies/credentials'
+      responses:
+        '200':
+          $ref: '#/components/responses/token'
+        '400':
+          description: Datos inválidos
+        '404':
+          description: Usuario no encontrado
+  /auth/refresh:
+    get:
+      tags:
+        - Auth
+      summary: Obtiene un token de autenticación a partir de otro
+      responses:
+        '200':
+          $ref: '#/components/responses/token'
+        '400':
+          description: Datos inválidos
+        '401':
+          description: No autenticado
+        '403':
+          description: No autorizado
+      security:
+        - jwt: []
+components:
+  schemas:
+    Usuario:
+      type: object
+      properties:
+        id:
+          type: string
+        datos:
+          type: object
+          properties:
+            nombre:
+              type: string
+            apaterno:
+              type: string
+            amaterno:
+              type: string
+            email:
+              type: string
+            telefono:
+              type: string
+        dependencia:
+          type: string
+        perfiles:
+          type: array
+          items:
+            type: string
+        user:
+          type: string
+        password:
+          type: string
+        activo:
+          type: boolean
+    Credentials:
+      type: object
+      properties:
+        user:
+          type: string
+        password:
+          type: string
+    Token:
+      type: object
+      properties:
+        token:
+          type: string
+  parameters:
+    id:
+      name: id
+      in: path
+      description: Id del usuario
+      required: true
+      schema:
+        type: string
+  requestBodies:
+    usuario:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Usuario'
+    credentials:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Credentials'
+  responses:
+    usuario:
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Usuario'
+    usuarios:
+      description: OK
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/Usuario'
+    token:
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Token'
+  securitySchemes:
+    jwt:
+      type: apiKey
+      name: token
+      in: header
