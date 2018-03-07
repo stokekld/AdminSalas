@@ -23,7 +23,7 @@ class TestMicroservice(SimpleTestCase):
 
         id = json.loads(response.content)["id"]
 
-        response = self.client.post('/v1/usuario/', {
+        data = {
             "datos": {
                 "nombre": "Ricardo",
                 "apaterno": "Guerra",
@@ -35,7 +35,9 @@ class TestMicroservice(SimpleTestCase):
             "perfiles": ["Supervisor", "Solicitante", "Observador", "Analista"],
             "password": "123456",
             "activo": True
-        }, content_type='application/json', HTTP_TOKEN=self.admin)
+        }
+
+        response = self.client.post('/v1/usuario/', json.dumps(data), content_type='application/json', HTTP_TOKEN=self.admin)
         self.assertEqual(response.status_code, 201)
 
         response = requests.delete('http://apigw/v1/dependencia/' + id, headers={
