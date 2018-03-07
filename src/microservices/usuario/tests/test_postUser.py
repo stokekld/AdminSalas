@@ -23,7 +23,7 @@ class TestMicroservice(SimpleTestCase):
 
         id = json.loads(response.content)["id"]
 
-        response = self.client.post('/v1/usuario', {
+        response = self.client.post('/v1/usuario/', {
             "datos": {
                 "nombre": "Ricardo",
                 "apaterno": "Guerra",
