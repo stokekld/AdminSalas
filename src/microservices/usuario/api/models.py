@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 
 from mongoengine import *
 
-class Datos(Document):
+class Datos(EmbeddedDocument):
     nombre = StringField(max_length=50, required=True)
     apaterno = StringField(max_length=50, required=True)
     amaterno = StringField(max_length=50, required=True)
@@ -11,7 +11,7 @@ class Datos(Document):
     telefono = StringField(max_length=50, required=True)
 
 class Usuario(Document):
-    datos = MapField(EmbeddedDocumentField(Datos))
+    datos = EmbeddedDocumentField(Datos)
     dependencia = ObjectIdField(required=True)
     perfiles = ListField(required=True)
     user= StringField(max_length=10, required=True)
