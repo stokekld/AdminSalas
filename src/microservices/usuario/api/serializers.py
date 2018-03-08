@@ -27,3 +27,17 @@ class UserSerializer(serializers.Serializer):
 
         return usuario
 
+    def update(self, instance, validated_data):
+
+        instance.datos.nombre = validated_data['datos'].get('nombre', instance.datos.nombre)
+        instance.datos.apaterno = validated_data['datos'].get('apaterno', instance.datos.apaterno)
+        instance.datos.amaterno = validated_data['datos'].get('amaterno', instance.datos.amaterno)
+        instance.datos.email = validated_data['datos'].get('email', instance.datos.email)
+        instance.datos.telefono = validated_data['datos'].get('telefono', instance.datos.telefono)
+        instance.dependencia = validated_data.get('dependencia', instance.dependencia)
+        instance.perfiles = validated_data.get('perfiles', instance.perfiles)
+        instance.user = validated_data.get('user', instance.user)
+        instance.password = hashlib.sha256(validated_data['password'].encode("UTF-8")).hexdigest() if 'password' in validated_data else instance.password
+        instance.activo = validated_data.get('activo', instance.activo)
+
+        return instance
