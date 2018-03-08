@@ -42,7 +42,7 @@ class TestMicroservice(SimpleTestCase):
         self.assertEqual(response.status_code, 201)
 
         
-        response = self.client.put('/v1/usuario/', json.dumps(data), content_type='application/json', HTTP_TOKEN=self.admin)
+        response = self.client.put('/v1/usuario/' + json.loads(response.content)["id"], json.dumps(data), content_type='application/json', HTTP_TOKEN=self.admin)
         self.assertEqual(response.status_code, 200)
 
 
