@@ -6,7 +6,7 @@ from rest_framework.response import Response
 
 from .serializers import UserSerializer
 
-import logging
+import logging, requests
 
 class MainView(APIView):
 
@@ -19,7 +19,13 @@ class MainView(APIView):
         if not serializer.is_valid():
             return Response(serializer.errors, 400)
 
-        ## Falta verificar el id de dependencia
+        ## Verificando dependencia
+        response = requests.get('http://apigw/v1/dependencia/' + serializer.validated_data['dependencia'], headers={
+            'token': request.META['HTTP_TOKEN']
+        })
+
+        if not response.status_code == 200:
+            return Response({'dependencia': ["Debe ser una dependencia válida."]}, 400)
 
         serializer.save()
 
