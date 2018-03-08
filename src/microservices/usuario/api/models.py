@@ -14,6 +14,6 @@ class Usuario(Document):
     datos = EmbeddedDocumentField(Datos)
     dependencia = ObjectIdField(required=True)
     perfiles = ListField(required=True)
-    user= StringField(max_length=10, required=True)
+    user= StringField(max_length=10, required=True, unique=True)
     password = StringField(max_length=64, required=True)
     activo = BooleanField(required=True)
