@@ -33,6 +33,7 @@ class TestMicroservice(SimpleTestCase):
             },
             "dependencia": id,
             "perfiles": ["Supervisor", "Solicitante", "Observador", "Analista"],
+            "user": "rootroot",
             "password": "123456",
             "activo": True
         }
