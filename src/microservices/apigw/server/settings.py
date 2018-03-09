@@ -38,6 +38,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'middlewares.auth.AuthMiddleware'
 ]
 
 REST_FRAMEWORK = {
