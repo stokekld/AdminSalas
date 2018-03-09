@@ -17,6 +17,7 @@ services:
     apigw:
         build: ./apigw
         ports:
-            - "80:80"
+            - "80:8080"
+        env_file: .config.env
         depends_on:
             - dependencia
