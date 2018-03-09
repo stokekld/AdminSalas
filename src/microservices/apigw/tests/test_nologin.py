@@ -44,7 +44,6 @@ class TestMicroservice(SimpleTestCase):
         self.assertEqual(response.status_code, 401)
 
         for token in self.tokens:
-            logging.info(token)
             hash = jwt.encode(token, settings.SECRET_KEY, algorithm=settings.ALGORITHM)
             response = self.client.get('/', HTTP_TOKEN=hash)
             self.assertEqual(response.status_code, 401)
