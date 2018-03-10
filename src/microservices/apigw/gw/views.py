@@ -8,6 +8,5 @@ import logging
 
 class ApiGwView(APIView):
 
-    def get(self, request, version, app, microservice, path, format=None):
-        logging.info(path)
+    def get(self, request, version, microservice, path, format=None):
         return Response({"hola":"mundo"})
