@@ -17,5 +17,5 @@ from django.conf.urls import url
 from gw import views
 
 urlpatterns = [
-    url(r'^(?P<version>v[1-9]{1})/(?P<microservice>[a-z]+)/(?P<path>.*)', views.ApiGwView.as_view()),
+    url(r'^(?P<version>v[1-9]{1})/(?P<microservice>[a-z]+)/(?P<path>.*)', views.general),
 ]
