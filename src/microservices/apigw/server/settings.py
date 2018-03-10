@@ -29,7 +29,6 @@ DEBUG = True if 'DEBUG' in os.environ and os.environ['DEBUG'] == "True" else Fal
 
 ALLOWED_HOSTS = ["*"]
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -38,7 +37,8 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
-    'middlewares.auth.AuthMiddleware'
+    'middlewares.auth.AuthMiddleware',
+    'middlewares.profiles.ProfileMiddleware'
 ]
 
 REST_FRAMEWORK = {
