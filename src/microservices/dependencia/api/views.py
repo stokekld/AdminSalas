@@ -4,7 +4,6 @@ from __future__ import unicode_literals
 from django.http import HttpResponse
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from permissions.profiles import ProfilePermission
 
 from .serializers import DepSerializer
 from .models import Dependencia
@@ -12,8 +11,6 @@ from .models import Dependencia
 import logging
 
 class MainView(APIView):
-
-    permission_classes = (ProfilePermission,)
 
     def get(self, request, format=None):
         dependencias = Dependencia.objects.all()
