@@ -10,7 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 
-import os, logging
+import os, corsheaders, logging
 
 logging.basicConfig(level=logging.INFO)
 
@@ -33,10 +33,13 @@ ALLOWED_HOSTS = ["*"]
 
 INSTALLED_APPS = [
     'rest_framework',
+    'corsheaders',
     'gw',
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
     'middlewares.auth.AuthMiddleware',
     'middlewares.profiles.ProfileMiddleware'
 ]
@@ -58,6 +61,15 @@ REST_FRAMEWORK = {
 ROOT_URLCONF = 'server.urls'
 
 WSGI_APPLICATION = 'server.wsgi.application'
+
+CORS_ORIGIN_ALLOW_ALL = True
+
+CORS_ALLOW_METHODS = corsheaders.defaults.default_methods
+
+CORS_ALLOW_HEADERS = corsheaders.defaults.default_headers + (
+    'token',
+    'HTTP_TOKEN',
+)
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.11/topics/i18n/
