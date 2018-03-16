@@ -32,8 +32,6 @@ class MainView(APIView):
 
 class IdView(APIView):
 
-    permission_classes = (ProfilePermission,)
-
     def get(self, request, id, format=None):
 
         if Dependencia.objects(id=id).count() is not 1:
