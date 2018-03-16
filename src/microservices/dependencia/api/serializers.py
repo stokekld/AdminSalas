@@ -6,6 +6,7 @@ import logging
 class DepSerializer(serializers.Serializer):
     id = serializers.CharField(read_only=True)
     nombre = serializers.CharField(max_length=100, required=True)
+    siglas = serializers.CharField(max_length=10, required=True)
 
     def create(self, validated_data):
 
@@ -16,7 +17,8 @@ class DepSerializer(serializers.Serializer):
 
     def update(self, instance, validated_data):
 
-        instance.nombre = validated_data['nombre']
+        instance.nombre = validated_data.get('nombre', instance.nombre)
+        instance.siglas = validated_data.get('siglas', instance.siglas)
         instance.save()
 
         return instance
