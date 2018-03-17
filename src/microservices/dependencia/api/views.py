@@ -7,15 +7,25 @@ from rest_framework.response import Response
 
 from .serializers import DepSerializer
 from .models import Dependencia
+from .schema import schema
 
 import logging
 
-class MainView(APIView):
+class QueryView(APIView):
 
-    def get(self, request, format=None):
-        dependencias = Dependencia.objects.all()
-        serializer = DepSerializer(dependencias, many=True)
-        return Response(serializer.data)
+    def post(self, request, format=None):
+
+        try:
+            result = schema.execute(request.data['query'])
+        except:
+            return Response({}, 400)
+
+        if result.data is None:
+            return Response({}, 400)
+
+        return Response(result.data['dependencia'])
+
+class MainView(APIView):
 
     def post(self, request, format=None):
 
