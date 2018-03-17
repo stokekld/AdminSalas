@@ -36,5 +36,14 @@ class TestMicroservice(SimpleTestCase):
 
 
     def test_getAll(self):
-        response = self.client.get('/v1/')
+
+        query = {
+            "query": '''{
+                dependencia {
+                    nombre
+                }
+            }'''
+        }
+
+        response = self.client.post('/v1/query', json.dumps(query), content_type='application/json')
         self.assertEqual(response.status_code, 200)
