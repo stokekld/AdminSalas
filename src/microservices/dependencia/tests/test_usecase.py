@@ -2,7 +2,6 @@
 from __future__ import unicode_literals
 
 from django.test import SimpleTestCase, Client
-from django.conf import settings
 import random, jwt, logging, json
 
 class TestMicroservice(SimpleTestCase):
@@ -20,9 +19,6 @@ class TestMicroservice(SimpleTestCase):
 
         id = response.data['id']
 
-        response = self.client.get('/v1/' + id)
-        self.assertEqual(response.status_code, 200)
-
         dependencia = {
             "nombre": "nombre2",
             "siglas": "siglas2"
@@ -34,16 +30,3 @@ class TestMicroservice(SimpleTestCase):
         response = self.client.delete('/v1/' + id)
         self.assertEqual(response.status_code, 200)
 
-
-    def test_getAll(self):
-
-        query = {
-            "query": '''{
-                dependencia {
-                    nombre
-                }
-            }'''
-        }
-
-        response = self.client.post('/v1/query', json.dumps(query), content_type='application/json')
-        self.assertEqual(response.status_code, 200)
