@@ -7,23 +7,8 @@ from rest_framework.response import Response
 
 from .serializers import DepSerializer
 from .models import Dependencia
-from .schema import schema
 
 import logging
-
-class QueryView(APIView):
-
-    def post(self, request, format=None):
-
-        try:
-            result = schema.execute(request.data['query'])
-        except:
-            return Response({}, 400)
-
-        if result.data is None:
-            return Response({}, 400)
-
-        return Response(result.data['dependencia'])
 
 class MainView(APIView):
 
@@ -41,15 +26,6 @@ class MainView(APIView):
         return Response(serializer.data, 201)
 
 class IdView(APIView):
-
-    def get(self, request, id, format=None):
-
-        if Dependencia.objects(id=id).count() is not 1:
-            return HttpResponse(status=404)
-
-        dependencia = Dependencia.objects(id=id)[0]
-        serializer = DepSerializer(dependencia)
-        return Response(serializer.data)
 
     def put(self, request, id, format=None):
 
