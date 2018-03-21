@@ -13,20 +13,6 @@ servers:
   - url: 'http://localhost/v1/dependencia/'
 paths:
   /:
-    get:
-      tags:
-        - Dependencia
-      summary: Lista de dependencias
-      description: Genera la lista completa de dependencias
-      responses:
-        '200':
-          $ref: '#/components/responses/dependencias'
-        '400':
-          description: Datos inválidos
-        '401':
-          description: No autenticado
-        '403':
-          description: No autorizado
     post:
       tags:
         - Dependencia
@@ -44,23 +30,6 @@ paths:
         '403':
           description: No autorizado
   '/{id}':
-    get:
-      tags:
-        - Dependencia
-      summary: Regresa una dependencia
-      parameters:
-        - $ref: '#/components/parameters/id'
-      responses:
-        '200':
-          $ref: '#/components/schemas/Dependencia'
-        '400':
-          description: Datos inválidos
-        '401':
-          description: No autenticado
-        '403':
-          description: No autorizado
-        '404':
-          description: Dependencia no encontrada
     put:
       tags:
         - Dependencia
@@ -101,6 +70,21 @@ paths:
           description: No autorizado
         '404':
           description: Dependencia no encontrada
+  '/query':
+    post:
+      tags:
+        - Dependencia
+      requestBody:
+        $ref: '#/components/requestBodies/query'
+      responses:
+        '200': 
+          $ref: '#/components/responses/query_result'
+        '400':
+          description: Datos inválidos
+        '401':
+          description: No autenticado
+        '403':
+          description: No autorizado
 security:
   - jwt: []
 components:
@@ -111,6 +95,8 @@ components:
         id:
           type: string
         nombre:
+          type: string
+        siglas:
           type: string
   parameters:
     id:
@@ -129,6 +115,16 @@ components:
             properties:
               nombre:
                 type: string
+              siglas:
+                type: string
+    query:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              query:
+                type: string
   responses:
     dependencias:
       description: OK
@@ -138,6 +134,20 @@ components:
             type: array
             items:
               $ref: '#/components/schemas/Dependencia'
+    query_result:
+      description: Resultado de los queries con graphql
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                type: object
+                properties:
+                  dependencia:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Dependencia'
   securitySchemes:
     jwt:
       type: apiKey
