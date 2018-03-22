@@ -6,19 +6,28 @@ class DependenciaType(MongoengineObjectType):
     class Meta:
         model = Dependencia
 
+class FilterInput(graphene.InputObjectType):
+    id = graphene.String(default_value=None)
+
+    @property
+    def input(self):
+        aux_list = {}
+        for key in self.__dict__.keys():
+            if self.__dict__[key] is not None:
+                aux_list[key] = self.__dict__[key]
+
+        return aux_list
+
+
 class Query(graphene.ObjectType):
-    dependencia = graphene.Field(DependenciaType, id=graphene.String())
-    dependencias = graphene.List(DependenciaType)
-
-    def resolve_dependencia(self, info, **kwargs):
-        id = kwargs.get('id')
-
-        if id is not None:
-            return Dependencia.objects.get(id=id)
-
-        return None
+    dependencias = graphene.List(DependenciaType, filter=FilterInput())
 
     def resolve_dependencias(self, info, **kwargs):
-        return Dependencia.objects.all()
+        filter = kwargs.get('filter')
 
+        if filter is not None:
+            return Dependencia.objects(**filter.input)
+
+        return Dependencia.objects.all()
+    
 schema = graphene.Schema(query=Query)
