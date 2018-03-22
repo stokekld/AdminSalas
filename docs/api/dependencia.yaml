@@ -70,14 +70,14 @@ paths:
           description: No autorizado
         '404':
           description: Dependencia no encontrada
-  '/query':
+  /query:
     post:
       tags:
         - Dependencia
       requestBody:
         $ref: '#/components/requestBodies/query'
       responses:
-        '200': 
+        '200':
           $ref: '#/components/responses/query_result'
         '400':
           description: Datos inválidos
@@ -125,6 +125,8 @@ components:
             properties:
               query:
                 type: string
+          example:
+            value: {"query": "{dependencias(filter: {id: \"key\"}){id, nombre, siglas}}"}
   responses:
     dependencias:
       description: OK
