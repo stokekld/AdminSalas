@@ -9,7 +9,7 @@ class TestMicroservice(SimpleTestCase):
     def setUp(self):
         self.client = Client()
 
-    def test_putUser(self):
+    def test_deleteUser(self):
         dependencia = {
             "nombre": ''.join(random.choice(string.ascii_lowercase) for _ in range(100)),
             "siglas": ''.join(random.choice(string.ascii_lowercase) for _ in range(10))
@@ -41,5 +41,5 @@ class TestMicroservice(SimpleTestCase):
         self.assertEqual(response.status_code, 201)
 
         
-        response = self.client.put('/v1/' + json.loads(response.content)["id"], json.dumps(data), content_type='application/json')
+        response = self.client.delete('/v1/' + json.loads(response.content)["id"], json.dumps(data), content_type='application/json')
         self.assertEqual(response.status_code, 200)
