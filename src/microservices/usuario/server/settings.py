@@ -38,6 +38,7 @@ ALLOWED_HOSTS = ["*"]
 
 INSTALLED_APPS = [
     'rest_framework',
+    'graphene_django',
     'api'
 ]
 
@@ -50,6 +51,10 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.AllowAny',
     ),
     'UNAUTHENTICATED_USER': None,
+}
+
+GRAPHENE = {
+    'SCHEMA': 'api.schema.schema'
 }
 
 ROOT_URLCONF = 'server.urls'
