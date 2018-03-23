@@ -13,22 +13,6 @@ servers:
   - url: 'http://localhost/v1/usuario/'
 paths:
   /:
-    get:
-      tags:
-        - Usuario
-      summary: Lista de usuarios
-      description: Genera la lista de usuarios
-      responses:
-        '200':
-          $ref: '#/components/responses/usuarios'
-        '400':
-          description: Datos inválidos
-        '401':
-          description: No autenticado
-        '403':
-          description: No autorizado
-      security:
-        - jwt: []
     post:
       tags:
         - Usuario
@@ -47,29 +31,10 @@ paths:
           description: No autorizado
       security:
         - jwt: []
-  /{id}:
-    get:
-      tags:
-        - Usuario
-      summary: Obtiene un usuario
-      parameters:
-        - $ref: '#/components/parameters/id'
-      responses:
-        '200':
-          $ref: '#/components/responses/usuario'
-        '400':
-          description: Datos inválidos
-        '401':
-          description: No autenticado
-        '403':
-          description: No autorizado
-        '404':
-          description: Usuario no encontrado
-      security:
-        - jwt: []
+  '/{id}':
     put:
       tags:
-       - Usuario
+        - Usuario
       summary: Actualiza un usuario
       description: Actualiza un usuario
       parameters:
@@ -91,7 +56,7 @@ paths:
         - jwt: []
     delete:
       tags:
-       - Usuario
+        - Usuario
       summary: Elimina un usuario
       description: Elimina un usuario
       parameters:
@@ -109,8 +74,25 @@ paths:
           description: Usuario no encontrado
       security:
         - jwt: []
+  /query:
+    post:
+      tags:
+        - Usuario
+      requestBody:
+        $ref: '#/components/requestBodies/query'
+      responses:
+        '200':
+          $ref: '#/components/responses/query_result'
+        '400':
+          description: Datos inválidos
+        '401':
+          description: No autenticado
+        '403':
+          description: No autorizado
+      security:
+        - jwt: []
   /auth:
-    get:
+    post:
       tags:
         - Auth
       summary: Obtiene un token de autenticación
@@ -202,6 +184,17 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Credentials'
+    query:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              query:
+                type: string
+          example:
+            value:
+              query: ''
   responses:
     usuario:
       description: OK
@@ -223,6 +216,20 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Token'
+    query_result:
+      description: Resultado de los queries con graphql
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                type: object
+                properties:
+                  usuarios:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Usuario'
   securitySchemes:
     jwt:
       type: apiKey
