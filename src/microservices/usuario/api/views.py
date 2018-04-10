@@ -4,11 +4,12 @@ from __future__ import unicode_literals
 from django.http import HttpResponse
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from django.conf import settings
 
 from .serializers import UserSerializer
 from .models import Usuario
 
-import logging, requests, json
+import logging, requests, json, hashlib, datetime, jwt
 
 def verify_dep(id):
     response = requests.post('http://dependencia:8080/v1/query', data=json.dumps({"query": "{dependencias(filter: {id:\"" + id + "\"}){id}}"}), headers={'content-type': 'application/json'})
@@ -68,3 +69,43 @@ class IdView(APIView):
         usuario.delete()
 
         return HttpResponse(status=200)
+
+class AuthView(APIView):
+
+    seconds = 300
+
+    def post(self, request, format=None):
+
+        if not 'user' in request.data and not 'password' in request.data:
+            return Response(serializer.errors, 400)
+
+        user = request.data['user']
+        password = request.data['password']
+
+        usuario = Usuario.objects(user=user, password=hashlib.sha256(password.encode("UTF-8")).hexdigest())
+
+        if usuario.count() is not 1:
+            return HttpResponse(status=404)
+
+        tokenInfo = {
+            "iat": datetime.datetime.utcnow(),
+            "exp": datetime.datetime.utcnow() + datetime.timedelta(seconds=self.seconds),
+            "id": str(usuario[0].id),
+            "datos": {
+                "nombre": usuario[0].datos.nombre,
+                "apaterno": usuario[0].datos.apaterno,
+                "amaterno": usuario[0].datos.amaterno,
+                "email": usuario[0].datos.email,
+                "telefono": usuario[0].datos.telefono
+            },
+            "perfiles": usuario[0].perfiles,
+            "user": usuario[0].user,
+            "activo": usuario[0].activo
+        }
+
+        try:
+            token = jwt.encode(tokenInfo, settings.SECRET_KEY, algorithm=settings.ALGORITHM)
+        except Exception as e:
+            return HttpResponse(status=400)
+
+        return Response({'token': token}, 201)
