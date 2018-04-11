@@ -105,11 +105,12 @@ paths:
           description: Datos inválidos
         '404':
           description: Usuario no encontrado
-  /auth/refresh:
-    get:
+    put:
       tags:
         - Auth
       summary: Obtiene un token de autenticación a partir de otro
+      requestBody:
+        $ref: '#/components/requestBodies/token'
       responses:
         '200':
           $ref: '#/components/responses/token'
@@ -184,6 +185,12 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Credentials'
+    token:
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Token'
     query:
       content:
         application/json:
