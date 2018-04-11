@@ -48,7 +48,14 @@ class TestMicroservice(SimpleTestCase):
         response = self.client.post('/v1/auth', json.dumps(credentials), content_type='application/json')
         self.assertEqual(response.status_code, 201)
 
-        response = requests.delete('http://dependencia:8080/v1/' + id, headers={
-            'content-type': 'application/json',
-        })
+        data = {
+            "token": json.loads(response.content)["token"]
+        }
+
+        response = self.client.put('/v1/auth', json.dumps(data), content_type='application/json')
         self.assertEqual(response.status_code, 200)
+
+
+
+
+
