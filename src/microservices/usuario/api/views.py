@@ -109,3 +109,21 @@ class AuthView(APIView):
             return HttpResponse(status=400)
 
         return Response({'token': token}, 201)
+
+    def put(self, request, format=None):
+        if not 'token' in request.data:
+            return Response(serializer.errors, 400)
+
+        try:
+            data = jwt.decode(request.data['token'], settings.SECRET_KEY, algorithms=settings.ALGORITHM)
+        except Exception as e:
+            return HttpResponse(status=400)
+
+        data['exp'] = datetime.datetime.utcnow() + datetime.timedelta(seconds=self.seconds)
+
+        try:
+            token = jwt.encode(data, settings.SECRET_KEY, algorithm=settings.ALGORITHM)
+        except Exception as e:
+            return HttpResponse(status=400)
+
+        return Response({'token': token}, 200)
