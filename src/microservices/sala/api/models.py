@@ -1,6 +1,10 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from django.db import models
+from mongoengine import *
 
-# Create your models here.
+class Sala(Document):
+    nombre = StringField(max_length=10, required=True)
+    capNormal = IntField(required=True)
+    capMax = IntField(required=True)
+
