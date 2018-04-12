@@ -16,8 +16,5 @@ class TestMicroservice(SimpleTestCase):
             "capMax": 100
         }
 
-        response = requests.post('http://sala:8080/v1/', data=json.dumps(sala), headers={
-            'content-type': 'application/json',
-        })
+        response = self.client.post('/v1/', json.dumps(sala), content_type='application/json')
         self.assertEqual(response.status_code, 201)
-
