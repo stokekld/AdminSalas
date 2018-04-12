@@ -1,0 +1,162 @@
+openapi: 3.0.0
+info:
+  description: Esta es la primera versión de la api del microservicio de Sala
+  version: 1.0.0
+  title: Sala
+  contact:
+    name: Jesus Flores
+    email: joywarmgun@gmail.com
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+servers:
+  - url: 'http://localhost/v1/sala/'
+paths:
+  /:
+    post:
+      tags:
+        - Sala
+      summary: Agrega una sala
+      description: Agrega una sala si el perfil de usuario es Administrador
+      requestBody:
+        $ref: '#/components/requestBodies/sala'
+      responses:
+        '201':
+          $ref: '#/components/responses/salas'
+        '400':
+          description: Datos inválidos
+        '401':
+          description: No autenticado
+        '403':
+          description: No autorizado
+  '/{id}':
+    put:
+      tags:
+        - Sala
+      summary: Actualiza una sala
+      description: Actualiza una sala si el usuario es Administrador
+      parameters:
+        - $ref: '#/components/parameters/id'
+      requestBody:
+        $ref: '#/components/requestBodies/sala'
+      responses:
+        '200':
+          $ref: '#/components/schemas/Sala'
+        '400':
+          description: Datos inválidos
+        '401':
+          description: No autenticado
+        '403':
+          description: No autorizado
+        '404':
+          description: Sala no encontrada
+    delete:
+      tags:
+        - Sala
+      summary: Elimina una sala
+      description: >-
+        Elimina una sala si el usuario es Administrador y no se ha
+        usado para una reunión
+      parameters:
+        - $ref: '#/components/parameters/id'
+      responses:
+        '200':
+          description: Sala borrada
+        '400':
+          description: Datos inválidos
+        '401':
+          description: No autenticado
+        '403':
+          description: No autorizado
+        '404':
+          description: Sala no encontrada
+  /query:
+    post:
+      tags:
+        - Sala
+      requestBody:
+        $ref: '#/components/requestBodies/query'
+      responses:
+        '200':
+          $ref: '#/components/responses/query_result'
+        '400':
+          description: Datos inválidos
+        '401':
+          description: No autenticado
+        '403':
+          description: No autorizado
+security:
+  - jwt: []
+components:
+  schemas:
+    Sala:
+      type: object
+      properties:
+        id:
+          type: string
+        nombre:
+          type: string
+        capNormal:
+          type: integer
+        capMax:
+          type: integer
+  parameters:
+    id:
+      name: id
+      in: path
+      description: Id de la sala
+      required: true
+      schema:
+        type: string
+  requestBodies:
+    sala:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              nombre:
+                type: string
+              capNormal:
+                type: integer
+              capMax:
+                type: integer
+    query:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              query:
+                type: string
+          example:
+            value:
+              query: '{salas(filter: {id: "key"}){id, nombre, capNormal, capMax}}'
+  responses:
+    salas:
+      description: OK
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/Sala'
+    query_result:
+      description: Resultado de los queries con graphql
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                type: object
+                properties:
+                  salas:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Sala'
+  securitySchemes:
+    jwt:
+      type: apiKey
+      name: token
+      in: header
