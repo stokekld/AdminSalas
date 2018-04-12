@@ -12,7 +12,7 @@ class TestMicroservice(SimpleTestCase):
     def test_postUser(self):
         sala = {
             "nombre": ''.join(random.choice(string.ascii_lowercase) for _ in range(10)),
-            "capNormal": 100
+            "capNormal": 100,
             "capMax": 100
         }
 
