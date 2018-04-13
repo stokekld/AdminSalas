@@ -52,9 +52,9 @@ REST_FRAMEWORK = {
     'UNAUTHENTICATED_USER': None,
 }
 
-# GRAPHENE = {
-    # 'SCHEMA': 'api.schema.schema'
-# }
+GRAPHENE = {
+    'SCHEMA': 'api.schema.schema'
+}
 
 ROOT_URLCONF = 'server.urls'
 
