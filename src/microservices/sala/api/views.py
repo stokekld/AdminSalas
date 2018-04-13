@@ -21,3 +21,20 @@ class MainView(APIView):
         serializer.save()
 
         return Response(serializer.data, 201)
+
+class IdView(APIView):
+    def put(self, request, id, format=None):
+
+        if Sala.objects(id=id).count() is not 1:
+            return HttpResponse(status=404)
+
+        sala = Sala.objects(id=id)[0]
+
+        serializer = SalaSerializer(sala, data=request.data)
+
+        if not serializer.is_valid():
+            return Response(serializer.errors, 400)
+
+        serializer.save()
+
+        return Response(serializer.data, 200)
