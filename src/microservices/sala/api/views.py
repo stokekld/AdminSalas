@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+from django.http import HttpResponse
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
@@ -38,3 +39,13 @@ class IdView(APIView):
         serializer.save()
 
         return Response(serializer.data, 200)
+
+    def delete(self, request, id, format=None):
+
+        if Sala.objects(id=id).count() is not 1:
+            return HttpResponse(status=404)
+
+        sala = Sala.objects(id=id)[0]
+        sala.delete()
+
+        return HttpResponse(status=200)
