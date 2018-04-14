@@ -15,10 +15,27 @@ class UsuarioType(graphene.ObjectType):
     password = graphene.String()
     activo = graphene.Boolean()
 
+class FilterInput(graphene.InputObjectType):
+    id = graphene.String(default_value=None)
+
+    @property
+    def input(self):
+        aux_list = {}
+        for key in self.__dict__.keys():
+            if self.__dict__[key] is not None:
+                aux_list[key] = self.__dict__[key]
+
+        return aux_list
+
 class Query(graphene.ObjectType):
-    usuarios = graphene.List(UsuarioType)
+    usuarios = graphene.List(UsuarioType, filter=FilterInput())
 
     def resolve_usuarios(self, info, **kwargs):
+        filter = kwargs.get('filter')
+
+        if filter is not None:
+            return Usuario.objects(**filter.input)
+
         return Usuario.objects.all()
 
 schema = graphene.Schema(query=Query)
