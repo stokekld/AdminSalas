@@ -14,7 +14,7 @@ def general(request, version, microservice, path, format=None):
 
     url = ('http://%s:%s/%s/%s') % (microservice, port, version, path)
 
-    response = requests.request(request.method.lower(), url, params=QueryDict(request.META['QUERY_STRING']).dict(), data=request.body, headers={'content-type': request.content_type})
+    response = requests.request(request.method.lower(), url, params=QueryDict(request.META['QUERY_STRING']).dict(), data=request.body, headers={'content-type': request.content_type, 'token': request.META['HTTP_TOKEN']})
 
     if response.headers['Content-Type'] == 'application/json':
         return Response(json.loads(response.text), response.status_code, headers=response.headers)

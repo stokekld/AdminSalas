@@ -41,7 +41,6 @@ MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'middlewares.auth.AuthMiddleware',
-    'middlewares.profiles.ProfileMiddleware'
 ]
 
 REST_FRAMEWORK = {
