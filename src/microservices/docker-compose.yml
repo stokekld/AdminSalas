@@ -18,6 +18,14 @@ services:
             - mongo
             - dependencia
         env_file: .config.env
+    reunion:
+        build: ./reunion
+        depends_on:
+            - mongo
+            - dependencia
+            - sala
+            - usuario
+        env_file: .config.env
     apigw:
         build: ./apigw
         ports:
