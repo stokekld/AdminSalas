@@ -1,0 +1,173 @@
+openapi: 3.0.0
+info:
+  description: Esta es la primera versión de la api del microservicio de Reunion
+  version: 1.0.0
+  title: Reunion
+  contact:
+    name: Jesus Flores
+    email: joywarmgun@gmail.com
+  license:
+      name: Apache 2.0
+      url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+servers:
+  - url: http://localhost/v1/reunion/
+paths:
+  /:
+    post:
+      tags:
+        - Reunion
+      summary: Agrega una reunion
+      description: Agrega una nueva reunion
+      requestBody:
+        $ref: '#/components/requestBodies/reunion'
+      responses:
+        '201':
+          $ref: '#/components/responses/reunion'
+        '400':
+          description: Datos inválidos
+        '401':
+          description: No autenticado
+        '403':
+          description: No autorizado
+  '/{id}':
+    put:
+      tags:
+        - Reunion
+      summary: Actualiza una reunion
+      description: Actualiza una reunion
+      parameters: 
+        - $ref: '#/components/parameters/id'
+      requestBody:
+        $ref: '#/components/requestBodies/reunion'
+      responses:
+        '200':
+          $ref: '#/components/responses/reunion'
+        '400':
+          description: Datos inválidos
+        '401':
+          description: No autenticado
+        '403':
+          description: No autorizado
+        '404':
+          description: Reunion no encontrada
+    delete:
+      tags:
+        - Reunion
+      summary: Elimina una reunion
+      description: Elimina una reunion
+      parameters: 
+        - $ref: '#/components/parameters/id'
+      responses:
+        '200':
+          description: Reunion eliminada
+        '400':
+          description: Datos inválidos
+        '401':
+          description: No autenticado
+        '403':
+          description: No autorizado
+        '404':
+          description: Reunion no encontrada
+  /query:
+    post:
+      tags:
+        - Reunion
+      requestBody:
+        $ref: '#/components/requestBodies/query'
+      responses:
+        '200':
+          $ref: '#/components/responses/query_result'
+        '400':
+          description: Datos inválidos
+        '401':
+          description: No autenticado
+        '403':
+          description: No autorizado
+security:
+  - jwt: []
+components:
+  schemas:
+    Reunion:
+      type: object
+      properties:
+        id:
+          type: integer
+        reservo:
+          type: string
+        sala:
+          type: string
+        dependencia:
+          type: string
+        responsable:
+          type: object
+          properties:
+            nombre:
+              type: string
+            telefono:
+              type: string
+            email:
+              type: string
+        servicios:
+          type: array
+          items:
+            type: string
+        captura:
+          type: string
+        fecha:
+          type: string
+        inicio:
+          type: string
+        fin:
+          type: string
+        noPersonas:
+          type: integer
+        description:
+          type: string
+  parameters:
+    id:
+      name: id
+      in: path
+      description: Id de Reunion
+      required: true
+      schema:
+        type: string
+  requestBodies:
+    reunion:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Reunion'
+    query:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              query:
+                type: string
+  responses:
+    reunion:
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Reunion'
+    query_result:
+      description: Resultado de los queries con graphql
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                type: object
+                properties:
+                  reuniones:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Reunion'
+  securitySchemes:
+    jwt:
+      type: apiKey
+      name: token
+      in: header
