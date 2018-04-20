@@ -27,3 +27,19 @@ class ReunionSerializer(serializers.Serializer):
         reunion.save()
 
         return reunion
+
+    def update(self, instance, validated_data):
+        instance.reservo = validated_data.get('reservo', instance.reservo)
+        instance.sala = validated_data.get('sala', instance.sala)
+        instance.dependencia = validated_data.get('dependencia', instance.dependencia)
+        instance.responsable.nombre = validated_data['responsable'].get('nombre', instance.responsable.nombre)
+        instance.responsable.telefono = validated_data['responsable'].get('telefono', instance.responsable.telefono)
+        instance.responsable.email = validated_data['responsable'].get('email', instance.responsable.email)
+        instance.servicios = validated_data.get('servicios', instance.servicios)
+        instance.captura = validated_data.get('captura', instance.captura)
+        instance.fecha = validated_data.get('fecha', instance.fecha)
+        instance.inicio = validated_data.get('inicio', instance.inicio)
+        instance.fin = validated_data.get('fin', instance.fin)
+        instance.noPersonas = validated_data.get('noPersonas', instance.noPersonas)
+        instance.description = validated_data.get('description', instance.description)
+        return instance
