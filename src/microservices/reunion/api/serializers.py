@@ -15,10 +15,10 @@ class ReunionSerializer(serializers.Serializer):
     dependencia = serializers.CharField(required=True, max_length=24)
     responsable = ResponsableSerializer()
     servicios = serializers.ListField(required=True)
-    captura = serializers.DateTimeField(required=True)
+    captura = serializers.DateField(required=True)
     fecha = serializers.DateField(required=True)
-    inicio = serializers.TimeField(required=True)
-    fin = serializers.TimeField(required=True)
+    inicio = serializers.DateTimeField(required=True)
+    fin = serializers.DateTimeField(required=True)
     noPersonas = serializers.IntegerField(required=True)
     description = serializers.CharField()
 
