@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 
 from django.test import SimpleTestCase, Client
 from django.conf import settings
-import random, jwt, logging, requests, json, string
+import random, jwt, logging, requests, json, string, datetime
 
 class TestMicroservice(SimpleTestCase):
     def setUp(self):
@@ -70,10 +70,10 @@ class TestMicroservice(SimpleTestCase):
             "servicios": [
                 "Cafeteria"
             ],
-            "captura": "string",
-            "fecha": "string",
-            "inicio": "string",
-            "fin": "string",
+            "captura": datetime.datetime.now().strftime("%Y-%m-%d"),
+            "fecha": datetime.datetime.now().strftime("%Y-%m-%d"),
+            "inicio": datetime.datetime.now().strftime("%Y-%m-%d %H:%M"),
+            "fin": datetime.datetime.now().strftime("%Y-%m-%d %H:%M"),
             "noPersonas": 0,
             "description": "string"
         }
