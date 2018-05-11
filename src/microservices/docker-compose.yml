@@ -2,24 +2,18 @@ version: '3'
 services:
     dependencia:
         build: ./dependencia
-        depends_on:
-            - mongo
         env_file: .config.env
     sala:
         build: ./sala
-        depends_on:
-            - mongo
         env_file: .config.env
     usuario:
         build: ./usuario
         depends_on:
-            - mongo
             - dependencia
         env_file: .config.env
     reunion:
         build: ./reunion
         depends_on:
-            - mongo
             - dependencia
             - sala
             - usuario
