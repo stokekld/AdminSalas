@@ -16,7 +16,12 @@ import os, logging, mongoengine
 logging.basicConfig(level=logging.INFO)
 
 if 'DB_HOST' in os.environ and 'DB_NAME' in os.environ:
-    connect(os.environ['DB_NAME'], host=os.environ['DB_HOST'], password=os.environ['DB_PASSWORD'])
+    connect(
+        os.environ['DB_NAME'],
+        host=os.environ['DB_HOST'],
+        username=os.environ['DB_USER'],
+        password=os.environ['DB_PASSWORD']
+    )
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
