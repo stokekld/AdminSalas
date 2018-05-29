@@ -77,7 +77,7 @@ class AuthView(APIView):
     def post(self, request, format=None):
 
         if not 'user' in request.data and not 'password' in request.data:
-            return Response(serializer.errors, 400)
+            return Response({'user/password': ['Error al mandar usuario o password']}, 400)
 
         user = request.data['user']
         password = request.data['password']
